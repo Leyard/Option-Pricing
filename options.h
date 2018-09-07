@@ -5,6 +5,9 @@
 
 class Option{
 public:
+    enum Exercise {European, American};
+    enum Type {Call, Put};
+
     Option();
     Option(double S, double K, double r, double vol, double t);
     void UpdateUnderlying(double new_underlying);
