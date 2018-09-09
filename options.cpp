@@ -1,6 +1,6 @@
 #include <iostream>
 #include <cmath>
-#include "func.h"
+#include "stat.h"
 #include "options.h"
 
 Option::Option(double S, double K, double r, double vol, double t){
@@ -33,7 +33,7 @@ void Option::UpdateTime(double new_time){
 }
 
 
-double Option::Value(){
+double Option::BlackScholesPrice(){
     double d1 = (log(S_/K_) + (r_+vol_*vol_)*t_) / (vol_*sqrt(t_));
     double d2 = d1 - vol_*sqrt(t_);
     double value = S_*StatUtility::normal_cdf(d1) - K_*exp(-r_*t_)*StatUtility::normal_cdf(d2);
@@ -51,22 +51,22 @@ double Option::ImpliedVol(double market){
     double sigma_high = 0.3;
     // Check for arbitrage violation
     UpdateVol(sigma_low);
-    if (market < Value()) return 0.0;
+    if (market < BlackScholesPrice()) return 0.0;
 
     UpdateVol(sigma_high);
-    double price = Value();
+    double price = BlackScholesPrice();
     while (price < market){
         sigma_high = 2*sigma_high;
         UpdateVol(sigma_high);
-        price = Value();
+        price = BlackScholesPrice();
         if (sigma_high > HIGH_VALUE) return ERROR;
     }
 
     for (int i=0; i < MAX_INTERATIONS; i++){
         double new_sigma = (sigma_low+sigma_high)*0.5;
         UpdateVol(new_sigma);
-        if (fabs(Value()-market) < ACCURACY) return new_sigma;
-        if (Value()-market < 0) sigma_low=new_sigma; 
+        if (fabs(BlackScholesPrice()-market) < ACCURACY) return new_sigma;
+        if (BlackScholesPrice()-market < 0) sigma_low=new_sigma; 
         else sigma_high=new_sigma;
     }
 

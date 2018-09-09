@@ -10,8 +10,10 @@ public:
     static double inv_cdf(double quantile, double mu = 0, double sigma = 1);
     static double uniform_rand(double a = 0, double b = 1);
     static double normal_rand(double mu = 0, double sigma = 1);
-    static double mean(std::vector<double>* dataset);
-    static double variance(std::vector<double>* dataset);
+    static double mean(std::vector<double>& dataset);
+    static double variance(std::vector<double>& dataset);
+    static double covariance(std::vector<double>& dataset1, std::vector<double>& dataset2);
+    static double correlation(std::vector<double>& dataset1, std::vector<double>& dataset2);
     static double box_muller(double mu = 0, double sigma = 1);
 };
 

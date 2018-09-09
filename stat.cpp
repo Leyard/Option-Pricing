@@ -3,7 +3,7 @@
 #include <ctime>
 #include <cmath>
 #include <vector>
-#include "func.h"
+#include "stat.h"
 #define PI 3.14159265358979323846
 
 
@@ -79,25 +79,44 @@ double StatUtility::normal_rand(double mu, double sigma){
 }
 
 
-double StatUtility::mean(std::vector<double>* dataset){
+double StatUtility::mean(std::vector<double>& dataset){
     std::vector<double>::iterator iter;
     double sum = 0;
-    for(iter=(*dataset).begin(); iter!=(*dataset).end(); iter++){
+    for(iter=dataset.begin(); iter!=dataset.end(); iter++){
         sum += *iter;
     }
-    return sum/(*dataset).size();
+    return sum/dataset.size();
 }
 
 
-double StatUtility::variance(std::vector<double>* dataset){
+double StatUtility::variance(std::vector<double>& dataset){
     std::vector<double>::iterator iter;
     double mu = mean(dataset);
-    double sum = 0;
-    for(iter=(*dataset).begin(); iter!=(*dataset).end(); iter++){
+    double sum = 0.0;
+    for(iter=dataset.begin(); iter!=dataset.end(); iter++){
         sum += ((*iter)-mu) * ((*iter)-mu);
     }
-    return sum/(*dataset).size();
+    return sum/dataset.size();
 }
+
+
+double StatUtility::covariance(std::vector<double>& dataset1, std::vector<double>& dataset2){
+    double mu_x = mean(dataset1);
+    double mu_y = mean(dataset2);
+    double co_sum = 0.0;
+    int n = dataset1.size();
+    for (int i=0; i<n; i++){
+        co_sum += (dataset1[i]-mu_x)*(dataset2[i]-mu_y);
+    }
+    return co_sum/n;
+}
+
+
+double StatUtility::correlation(std::vector<double>& dataset1, std::vector<double>& dataset2){
+    return covariance(dataset1, dataset2)/sqrt(variance(dataset1)*variance(dataset2));
+}
+
+
 
 
 double StatUtility::box_muller(double mu, double sigma){

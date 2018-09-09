@@ -8,6 +8,7 @@
 // #include "func.h"
 #include "options.h"
 // #include "options.cpp"
+#include "regression.h"
 
 #define PI 3.14159265358979323846
 
@@ -52,9 +53,9 @@ int main(){
     // std::cout << "sd: " << sqrt(variance(&inFile)) << std::endl;
     std::cout << "----------------------------------------" << std::endl;
     Option call(110, 100, 0.05, 0.2, 1);
-    std::cout << "Price is: " << call.Value() << std::endl;
+    std::cout << "Price is: " << call.BlackScholesPrice() << std::endl;
     call.UpdateVol(0.3);
-    std::cout << "New price is: " << call.Value() << std::endl;
+    std::cout << "New price is: " << call.BlackScholesPrice() << std::endl;
 
     std::cout << "Vol of a $30: " << call.ImpliedVol(30) << std::endl;
 
@@ -63,6 +64,19 @@ int main(){
     std::cout << "Theta is: " << call.Theta() << std::endl;
     std::cout << "Vega is: " << call.Vega() << std::endl;
     std::cout << "Rho is: " << call.Rho() << std::endl;
+    std::vector<double> y_set = {1.5, 2.4, 3.2, 4.8,  5.0, 7.0,  8.43};
+    std::vector<double> x_set = {3.5, 5.3, 7.7, 6.2, 11.0, 9.5, 10.27};
+    LM linear(y_set, x_set);
+    std::cout << "Slope is: " << linear.Slope() << std::endl;
+    std::cout << "Intercept is: " << linear.Intercept() << std::endl;
+    std::cout << "Fitted is: " << std::endl;
+    for (int i=0; i<7; i++){
+        std::cout << linear.Fitted()[i] << std::endl;
+    }
+    std::cout << "Residuals are: " << std::endl;
+    for (int i=0; i<7; i++){
+        std::cout << linear.Residuals()[i] << std::endl;
+    }
     return 0;
 }
 
