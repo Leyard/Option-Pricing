@@ -52,7 +52,7 @@ int main(){
     // std::cout << "mean: " << mean(&inFile) << std::endl;
     // std::cout << "sd: " << sqrt(variance(&inFile)) << std::endl;
     std::cout << "----------------------------------------" << std::endl;
-    Option call(110, 100, 0.05, 0.2, 1);
+    Option call(110, 100, 0.05, 0.2, 1, 'E', 'C');
     std::cout << "Price is: " << call.BlackScholesPrice() << std::endl;
     call.UpdateVol(0.3);
     std::cout << "New price is: " << call.BlackScholesPrice() << std::endl;
@@ -64,6 +64,7 @@ int main(){
     std::cout << "Theta is: " << call.Theta() << std::endl;
     std::cout << "Vega is: " << call.Vega() << std::endl;
     std::cout << "Rho is: " << call.Rho() << std::endl;
+    std::cout << "Test the LM class..." << std::endl;
     std::vector<double> y_set = {1.5, 2.4, 3.2, 4.8,  5.0, 7.0,  8.43};
     std::vector<double> x_set = {3.5, 5.3, 7.7, 6.2, 11.0, 9.5, 10.27};
     LM linear(y_set, x_set);
