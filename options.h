@@ -5,11 +5,13 @@
 
 class Option{
 public:
-    enum Exercise {European, American};
-    enum Type {Call, Put};
+    enum Exercise {European = 'E', American = 'A'};
+    enum Type {Call = 'C', Put = 'P'};
 
     Option();
-    Option(double S, double K, double r, double vol, double t);
+    Option(double S, double K, double r, double vol, double t, char exercise, char type);
+    void UpdateExercise(char new_exercise);
+    void UpdateType(char new_type);
     void UpdateUnderlying(double new_underlying);
     void UpdateStrike(double new_stike);
     void UpdateRate(double new_rate);
@@ -30,5 +32,7 @@ private:
     double r_;
     double vol_;
     double t_;
+    char exercise_;
+    char type_;
 };
 
