@@ -8,7 +8,7 @@
 // #include "func.h"
 #include "options.h"
 // #include "options.cpp"
-#include "regression.h"
+#include "stat.h"
 
 #define PI 3.14159265358979323846
 
@@ -67,7 +67,7 @@ int main(){
     std::cout << "Test the LM class..." << std::endl;
     std::vector<double> y_set = {1.5, 2.4, 3.2, 4.8,  5.0, 7.0,  8.43};
     std::vector<double> x_set = {3.5, 5.3, 7.7, 6.2, 11.0, 9.5, 10.27};
-    LM linear(y_set, x_set);
+    StatUtility::LM linear(y_set, x_set);
     std::cout << "Slope is: " << linear.Slope() << std::endl;
     std::cout << "Intercept is: " << linear.Intercept() << std::endl;
     std::cout << "Fitted is: " << std::endl;

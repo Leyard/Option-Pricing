@@ -128,3 +128,46 @@ double StatUtility::box_muller(double mu, double sigma){
 
     return x1*sigma + mu;
 }
+
+
+
+StatUtility::LM::LM(const std::vector<double>& y, const std::vector<double>& x){
+    if (!(x.size() == y.size())){
+        throw("Input vectors should of the same length!\n");
+    }
+    y_ = y;
+    x_ = x;
+    n = y.size();
+}
+
+
+double StatUtility::LM::Slope(){
+    double slope = StatUtility::covariance(x_, y_)/StatUtility::variance(x_);
+    return slope;
+}
+
+
+double StatUtility::LM::Intercept(){
+    double intercept = StatUtility::mean(y_) - Slope()*StatUtility::mean(x_);
+    return intercept;
+}
+
+
+std::vector<double> StatUtility::LM::Fitted(){
+    std::vector<double> fitted;
+    for (int i=0; i<n; i++){
+        double fitted_y = Intercept() + Slope()*x_[i];
+        fitted.push_back(fitted_y);
+    }
+    return fitted;
+}
+
+
+std::vector<double> StatUtility::LM::Residuals(){
+    std::vector<double> residuals;
+    for (int i=0; i<n; i++){
+        residuals.push_back(y_[i] - Fitted()[i]);
+    }
+    return residuals;
+}
+
