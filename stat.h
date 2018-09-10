@@ -15,5 +15,19 @@ public:
     static double covariance(std::vector<double>& dataset1, std::vector<double>& dataset2);
     static double correlation(std::vector<double>& dataset1, std::vector<double>& dataset2);
     static double box_muller(double mu = 0, double sigma = 1);
+    class LM{
+    public:
+        LM();
+        LM(const std::vector<double>& y, const std::vector<double>& x);
+        double Slope();
+        double Intercept();
+        std::vector<double> Fitted();
+        std::vector<double> Residuals();
+    private:
+        std::vector<double> y_;
+        std::vector<double> x_;
+        int n;
+    };
+
 };
 

@@ -137,4 +137,3 @@ double Option::Rho(){
         rho = -K_*t_*exp(-r_*t_)*StatUtility::normal_cdf(-d2);
     return rho;
 }
-
