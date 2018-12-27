@@ -1,4 +1,4 @@
-.gch
-.exe
-.csv
-.txt
+*.gch
+*.exe
+*.csv
+*.txt
