@@ -15,6 +15,7 @@ public:
     static double covariance(std::vector<double>& dataset1, std::vector<double>& dataset2);
     static double correlation(std::vector<double>& dataset1, std::vector<double>& dataset2);
     static double box_muller(double mu = 0, double sigma = 1);
+
     class LM{
     public:
         LM();
@@ -28,6 +29,28 @@ public:
         std::vector<double> x_;
         int n;
     };
+
+    class GLM{
+    public:
+        GLM();
+        GLM(const std::vector<double>& y, const std::vector<double>& x, bool include_mean = true);
+    private:
+        std::vector<double> y_;
+        std::vector<double> x_;
+        int n;
+        int p;
+    };
+
+
+    class Matrix{
+    public:
+        std::vector<double> sum(std::vector<double>& mat1, std::vector<double>& mat2);
+        std::vector<double> multiply(std::vector<double>& mat1, std::vector<double>& mat2);
+        std::vector<double> transpose(std::vector<double>& mat);
+        std::vector<double> inverse(std::vector<double>& mat);
+    };
+
+    static std::vector<double> MCMC(int n);
 
 };
 

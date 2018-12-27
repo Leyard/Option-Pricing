@@ -137,3 +137,39 @@ double Option::Rho(){
         rho = -K_*t_*exp(-r_*t_)*StatUtility::normal_cdf(-d2);
     return rho;
 }
+
+
+double Option::BaroneAdesiWhaleyPrice(double b){
+    double BAW;
+    double SS_ = S_;
+    const int MAX_ITERATIONS = 1000;
+    const double ERROR = 0.000001;
+
+    // serveral notations
+    double M = 2*r_/(vol_*vol_);
+    double N = 2*b/(vol_*vol_);
+    double q1 = 0.5*(-(N-1)-sqrt((N-1)*(N-1)-4*M/N));  // root 1 of f=a*S^q, with early exercise premium defined as epsilon = f*(1-e^{-r*T})
+    double q2 = 0.5*(-(N-1)+sqrt((N-1)*(N-1)-4*M/N));
+
+    // calculation of seed value, Si
+    double Si = K_;
+
+    // Newton-Ralphson algorithm for finding critical price, Si
+    for (int i=0; i<MAX_ITERATIONS; i++){
+        double LHS = Si - K_;
+        double di = (log(Si/K_) + (r_*vol_*vol_)*t_) / vol_*sqrt(t_);
+        UpdateUnderlying(Si);
+        double RHS = BlackScholesPrice() + (1-exp(b-r_*t_)*StatUtility::normal_cdf(di))*Si/q2;
+        if (abs(LHS-RHS)/K_ > ERROR) break;
+        double bi = exp((b-r_)*t_)*StatUtility::normal_cdf(di)*(1-1/q2) + (1-exp((b-r_)*t_)*StatUtility::normal_pdf(di)/(vol_*sqrt(t_)))/q2;
+        Si = (K_+RHS-bi*Si)/(1-bi);
+    }
+
+    UpdateUnderlying(SS_);
+
+    double A2 = Si/q2*(1-exp((b-r_)*t_)*StatUtility::normal_cdf((log(Si/K_)+(r_*vol_*vol_)*t_)/vol_*sqrt(t_)));
+
+    if (Si < S_) BAW = BlackScholesPrice() + A2*pow((S_/Si), q2);
+    else BAW = S_ - K_;
+    return BAW;
+}

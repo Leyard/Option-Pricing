@@ -12,6 +12,8 @@
 
 #define PI 3.14159265358979323846
 
+std::vector<double> readCSV(std::string filename);
+
 int main(){
     std::cout << "hello, test for mcmc!!" << std::endl;
     // std::cout << inv_cdf(0.5) << std::endl;
@@ -78,6 +80,41 @@ int main(){
     for (int i=0; i<7; i++){
         std::cout << linear.Residuals()[i] << std::endl;
     }
+    std::cout << "-------------------------------------------" << std::endl;
+    Option another_call(125.0, 120.0, 0.04, 0.14, 2.0, 'A', 'C');
+    double value = another_call.BaroneAdesiWhaleyPrice(0.0);
+    std::cout << "BAW models yields: " << value << std::endl;
+    std::cout << "-------------------------------------------" << std::endl;
+    for (int i=0; i<1000; i++) {
+        std::cout << StatUtility::uniform_rand() << std::endl;
+    }
     return 0;
 }
+
+
+
+std::vector<double> readCSV(std::string filename) {
+    std::ifstream infile(filename);
+    if (!infile){
+        std::cerr << "Fail to open the input file..." << std::endl;
+        exit(1);
+    }
+    std::string line;
+    std::vector<double> ages;
+    int counter = 0;
+    while (getline(infile, line)) {
+        counter++;
+        std::cout << "Read from file" << line << std::endl;
+        std::cout << "Length: " << line.length() << std::endl;
+        int break_pos = line.find(",");
+        std::string data = line.substr(break_pos + 2, line.length() - break_pos);
+        std::cout << data << std::endl;
+        if (counter > 1) {
+            double age = atof(data.c_str());
+            ages.push_back(age);
+        }
+    }
+    return ages;
+}
+
 

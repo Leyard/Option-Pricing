@@ -18,7 +18,7 @@ public:
     void UpdateVol(double new_vol);
     void UpdateTime(double new_time);
     double BlackScholesPrice();
-    double BaroneAdesiWhaleyPrice();
+    double BaroneAdesiWhaleyPrice(double b);
     double LongstaffSchwartzPrice();
     double ImpliedVol(double market);
     double Delta();
