@@ -69,7 +69,11 @@ double StatUtility::inv_cdf(double quantile, double mu, double sigma){
 
 
 double StatUtility::uniform_rand(double a, double b){
+<<<<<<< HEAD
     // srand(time(0));
+=======
+    srand(time(0));
+>>>>>>> 0746138df6fe69b5832ec97b20dc6dadac256a7f
     return double(rand())/RAND_MAX * (b-a) + a;
 }
 
@@ -171,6 +175,7 @@ std::vector<double> StatUtility::LM::Residuals(){
     return residuals;
 }
 
+<<<<<<< HEAD
 
 StatUtility::GLM::GLM(const std::vector<double>& y, const std::vector<double>& x, bool include_mean){
     y_ = y;
@@ -196,3 +201,5 @@ std::vector<double> StatUtility::MCMC(int n){
     return samples;
 }
 
+=======
+>>>>>>> 0746138df6fe69b5832ec97b20dc6dadac256a7f

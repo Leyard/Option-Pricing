@@ -12,8 +12,11 @@
 
 #define PI 3.14159265358979323846
 
+<<<<<<< HEAD
 std::vector<double> readCSV(std::string filename);
 
+=======
+>>>>>>> 0746138df6fe69b5832ec97b20dc6dadac256a7f
 int main(){
     std::cout << "hello, test for mcmc!!" << std::endl;
     // std::cout << inv_cdf(0.5) << std::endl;
@@ -80,6 +83,7 @@ int main(){
     for (int i=0; i<7; i++){
         std::cout << linear.Residuals()[i] << std::endl;
     }
+<<<<<<< HEAD
     std::cout << "-------------------------------------------" << std::endl;
     Option another_call(125.0, 120.0, 0.04, 0.14, 2.0, 'A', 'C');
     double value = another_call.BaroneAdesiWhaleyPrice(0.0);
@@ -118,3 +122,8 @@ std::vector<double> readCSV(std::string filename) {
 }
 
 
+=======
+    return 0;
+}
+
+>>>>>>> 0746138df6fe69b5832ec97b20dc6dadac256a7f

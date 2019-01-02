@@ -137,6 +137,7 @@ double Option::Rho(){
         rho = -K_*t_*exp(-r_*t_)*StatUtility::normal_cdf(-d2);
     return rho;
 }
+<<<<<<< HEAD
 
 
 double Option::BaroneAdesiWhaleyPrice(double b){
@@ -173,3 +174,5 @@ double Option::BaroneAdesiWhaleyPrice(double b){
     else BAW = S_ - K_;
     return BAW;
 }
+=======
+>>>>>>> 0746138df6fe69b5832ec97b20dc6dadac256a7f
