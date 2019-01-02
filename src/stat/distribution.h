@@ -3,9 +3,16 @@
 
 class Distribution {
     public:
-        float mean();
-        float variance();
+        float pdf();
+        float cdf();
+        float inv_cdf();
+        float moment(unsigned int order);
     };
+
+
+class Gaussian: public Distribution {
+
+};
 
 
 double normal_pdf(double x, double mu = 0, double sigma = 1);
