@@ -69,11 +69,7 @@ double StatUtility::inv_cdf(double quantile, double mu, double sigma){
 
 
 double StatUtility::uniform_rand(double a, double b){
-<<<<<<< HEAD
     // srand(time(0));
-=======
-    srand(time(0));
->>>>>>> 0746138df6fe69b5832ec97b20dc6dadac256a7f
     return double(rand())/RAND_MAX * (b-a) + a;
 }
 

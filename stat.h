@@ -15,10 +15,6 @@ public:
     static double covariance(std::vector<double>& dataset1, std::vector<double>& dataset2);
     static double correlation(std::vector<double>& dataset1, std::vector<double>& dataset2);
     static double box_muller(double mu = 0, double sigma = 1);
-<<<<<<< HEAD
-
-=======
->>>>>>> 0746138df6fe69b5832ec97b20dc6dadac256a7f
     class LM{
     public:
         LM();
@@ -33,7 +29,6 @@ public:
         int n;
     };
 
-<<<<<<< HEAD
     class GLM{
     public:
         GLM();
@@ -56,7 +51,5 @@ public:
 
     static std::vector<double> MCMC(int n);
 
-=======
->>>>>>> 0746138df6fe69b5832ec97b20dc6dadac256a7f
 };
 

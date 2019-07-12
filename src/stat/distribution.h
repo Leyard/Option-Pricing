@@ -3,15 +3,45 @@
 
 class Distribution {
     public:
-        float pdf();
-        float cdf();
-        float inv_cdf();
-        float moment(unsigned int order);
+        double ProbabilityDensityFunction(double x);
+        double CumulativeDensityFunction(double x);
+        double InverseCumulativeDensityFunction(double quantile);
+        double Moments(unsigned order);
     };
 
 
-class Gaussian: public Distribution {
+class Normal: public Distribution {
+    public: 
+        Normal(double mean=0, double sigma=1): mean_(mean), sigma_(sigma) {};
+        double ProbabilityDensityFunction(double x);
+        double CumulativeDensityFunction(double x);
+        double InverseCumulativeDensityFunction(double quantile);
+        double Moments(unsigned order);
+    private:
+        double mean_, sigma_;
+};
 
+
+class Uniform: public Distribution {
+    public:
+        Uniform(double a=0, double b=1): a_(a), b_(b) {};
+        double ProbabilityDensityFunction(double x);
+        double CumulativeDensityFunction(double x);
+        double InverseCumulativeDensityFunction(double quantile);
+        double Moments(unsigned order);
+    private:
+        double a_, b_;
+};
+
+
+class Poisson: public Distribution {
+    public:
+        Poisson(double lambda): lambda_(lambda) {};
+        double pdf(unsigned x);
+        double cdf(unsigned x);
+        double moment(unsigned order);
+    private:
+        double lambda_;
 };
 
 

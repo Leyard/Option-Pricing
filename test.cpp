@@ -3,6 +3,8 @@
 #include <ctime>
 #include <cmath>
 #include <vector>
+#include "src/BinomialTreePricingEngine.hpp"
+#include "src/BlackScholesPricingEngine.hpp"
 
 #define PI 3.14159265348
 
@@ -79,9 +81,12 @@ vector<double> mcmc(int n, double (*pdf)(double, double, double), double (*jump)
 
 
 int main() {
-    for (int i=0; i<1000; i++) {
-        cout << normal_rand(0, 1) << endl;
-    }
+    // for (int i=0; i<1000; i++) {
+    //     cout << normal_rand(0, 1) << endl;
+    // }
     // mcmc(1000, normal_pdf, normal_rand);
+    Option an_option(110, 100, 0.05, 0.2, 1, 'A', 'C');
+    BlackScholesPricingEngine tri_tree(an_option);
+    std::cout << "Price as: " << tri_tree.Value() << std::endl;
     return 0;
 }
