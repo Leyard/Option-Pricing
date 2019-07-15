@@ -1,21 +1,24 @@
 #pragma once
 #include <stdexcept>
-#include <vector>
+// #include <vector>
 
 
 class Matrix {
     public:
-        Matrix();
+        // Matrix();
+        Matrix(int rows, int cols);
+        // Matrix(double **arr);
+        ~Matrix();
         // Matrix(int rows, int cols): rows_(rows), cols_(cols) {};
-        Matrix(std::vector< std::vector<double> >& m): rows_(m.size()), cols_(m[0].size()), data_(m) {}
+        // Matrix(std::vector< std::vector<double> >& m): rows_(m.size()), cols_(m[0].size()), data_(m) {}
         // no semicolon needed to end a member initializer list
         Matrix(const Matrix& rhs);
-        ~Matrix();
         Matrix operator= (Matrix& mat);
 
-        int nrow();
-        int ncol();
-        std::vector< std::vector<double> > data();
+        int nrows;
+        int ncols;
+        double **data;
+        // std::vector< std::vector<double> > data();
         double operator() (int row, int col);
         Matrix operator+ (Matrix& right);
         // Matrix operator+ (double constant);
@@ -36,9 +39,15 @@ class Matrix {
         double det();
 
         void print();
+        bool isSquare();
+        bool isSymmetric();
+        bool isDefinite();
+        bool isUpper();
+        bool isLower();
 
     private:
-        int rows_, cols_;
-        std::vector< std::vector<double> >& data_;
+        int rows_;
+        int cols_;
+        // std::vector< std::vector<double> >& data_;
 };
 

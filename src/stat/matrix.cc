@@ -2,19 +2,32 @@
 #include <iostream>
 
 
-int Matrix::ncol() {
-    return cols_;
+Matrix::Matrix(int rows, int cols)
+{
+    nrows = rows;
+    rows_ = rows;
+    ncols = cols;
+    cols_ = cols;
+    data = new double* [rows];
+    for (int i=0; i<rows; i++) 
+        data[i] = new double[cols];
 }
 
-int Matrix::nrow() {
-    return rows_;
+// Matrix::Matrix(double **arr)
+// {
+//     nrows = arr.size();
+// }
+
+Matrix::~Matrix()
+{
+    for (int i=0; i<nrows; i++)
+        delete [] data[i];
+    delete [] data;
 }
 
-std::vector< std::vector<double> > Matrix::data() {
-    return data_;
-}
 
-Matrix::Matrix(const Matrix& rhs) : data_(rhs.data_) {
+Matrix::Matrix(const Matrix& rhs) 
+{
     rows_ = rhs.rows_;
     cols_ = rhs.rows_;
     // data_ = rhs.data_;
@@ -22,22 +35,28 @@ Matrix::Matrix(const Matrix& rhs) : data_(rhs.data_) {
 
 
 Matrix Matrix::operator= (Matrix& rhs) {
-    Matrix mat(rhs.data());
-    return mat;
+    Matrix out(rhs.nrows, rhs.ncols);
+    for (int i=0; i<rhs.nrows; i++)
+    {
+        for (int j=0; j<rhs.ncols; j++) 
+        {
+            out.data[i][j] = rhs(i, j);
+        }
+    }
+    return out;
 }
 
 double Matrix::operator() (int row, int col) {
-    return data_[row][col];
+    return data[row][col];
 }
 
 Matrix Matrix::operator+ (Matrix& right) {
-    std::vector< std::vector<double> > out_data(data_);
-    for (int i=0; i < rows_; i++) {
+    Matrix out(nrows, ncols);
+    for (int i=0; i < nrows; i++) {
         for (int j=0; j < cols_; j++) {
-            out_data[i][j] += out_data[i][j] + right(i, j);
+            out.data[i][j] = data[i][j] + right(i, j);
         }
     }
-    Matrix out(out_data);
     return out; 
 }
 
@@ -52,16 +71,16 @@ Matrix Matrix::operator+ (Matrix& right) {
 //     return out; 
 // }
 
-Matrix Matrix::operator- (Matrix& right) {
-    std::vector< std::vector<double> > out_data(data_);
-    for (int i=0; i < rows_; i++) {
-        for (int j=0; j < cols_; j++) {
-            out_data[i][j] -= right(i, j);
-        }
-    }
-    Matrix out(out_data);
-    return out; 
-}
+// Matrix Matrix::operator- (Matrix& right) {
+//     std::vector< std::vector<double> > out_data(data_);
+//     for (int i=0; i < rows_; i++) {
+//         for (int j=0; j < cols_; j++) {
+//             out_data[i][j] -= right(i, j);
+//         }
+//     }
+//     Matrix out(out_data);
+//     return out; 
+// }
 
 // Matrix Matrix::operator+ (double constant) {
 //     std::vector< std::vector<double> > out_data(data_);
@@ -75,19 +94,18 @@ Matrix Matrix::operator- (Matrix& right) {
 // }
 
 Matrix Matrix::operator* (Matrix& mat) {
-    std::vector< std::vector<double> > out_vector(rows_, std::vector<double>(mat.ncol(), 0.0));
-    for (int i=0; i < rows_; i++) {
-        for (int j=0; j < mat.ncol(); j++) {
-            for (int k=0; k < cols_; k++) {
-                out_vector[i][j] = out_vector[i][j] + data_[i][k] * mat(k, j);
+    Matrix out(nrows, mat.ncols);
+    // std::cout << "for k:" << cols_ << std::endl;
+    // std::vector< std::vector<double> > out_vector(rows_, std::vector<double>(mat.ncol(), 0.0));
+    for (int i=0; i < nrows; i++) {
+        for (int j=0; j < mat.ncols; j++) {
+            double tmpSum = 0.0;
+            for (int k=0; k < ncols; k++) {
+                tmpSum += (data[i][k] * mat(k, j));
             }
+            out.data[i][j] = tmpSum;
         }
     }
-    std::cout << out_vector[0][0] << out_vector[0][1] << std::endl;
-    std::cout << out_vector[1][0] << out_vector[1][1] << std::endl;
-    Matrix out(out_vector);
-    std::cout << out(0, 0) << out(0, 1) << std::endl;
-    std::cout << out(1, 0) << out(1, 1) << std::endl;
     return out;
 }
 
@@ -103,23 +121,61 @@ Matrix Matrix::operator* (Matrix& mat) {
 // }
 
 Matrix Matrix::transpose() {
-    std::vector< std::vector<double> > out_data;
-    out_data.resize(cols_);
-    for (int i=0; i < cols_; i++) {
-        out_data[i].resize(rows_);
-        for (int j=0; j < rows_; j++) {
-            out_data[i][j] = data_[j][i];
+    Matrix out(ncols, nrows);
+    for (int i=0; i < ncols; i++) {
+        for (int j=0; j < nrows; j++) {
+            out.data[i][j] = data[j][i];
         }
     }
-    Matrix out(out_data);
     return out; 
 }
 
 void Matrix::print() {
-    for (int i=0; i < cols_; i++) {
-        for (int j=0; j < rows_; j++) {
-            std::cout << data_[i][j] << "  ";
+    for (int i=0; i < ncols; i++) {
+        for (int j=0; j < nrows; j++) {
+            std::cout << data[i][j] << "  ";
         }
         std::cout << std::endl;
     }
+}
+
+
+bool Matrix::isSquare()
+{
+    return nrows == ncols;
+}
+
+bool Matrix::isSymmetric()
+{
+    if (!isSquare()) return false;
+    for (int i=0; i<nrows; i++) {
+        for (int j=i+1; j<ncols; j++) {
+            if (data[i][j] != data[j][i]) return false;
+        }
+    }
+    return true;
+}
+
+bool Matrix::isUpper()
+{
+    if (!isSquare())
+        throw "Non-square matrix not allowed";
+    for (int i=0; i<nrows; i++) {
+        for (int j=0; j<i; j++) {
+            if (data[i][j] != 0.0) return false;
+        }
+    }
+    return true;
+}
+
+bool Matrix::isLower()
+{
+    if (!isSquare())
+        throw "Non-square matrix not allowed";
+    for (int i=0; i<nrows; i++) {
+        for (int j=i+1; j<ncols; j++) {
+            if (data[i][j] != 0) return false;
+        }
+    }
+    return true;
 }
