@@ -26,24 +26,41 @@ Matrix::~Matrix()
 }
 
 
-Matrix::Matrix(const Matrix& rhs) 
+Matrix::Matrix(Matrix& rhs) 
 {
-    rows_ = rhs.rows_;
-    cols_ = rhs.rows_;
+    rows_ = rhs.nrows;
+    cols_ = rhs.ncols;
+    for (int i=0; i<rhs.nrows; i++) {
+        for (int j=0; j<rhs.ncols; j++) {
+            data[i][j] = rhs(i, j);
+        }
+    }   
     // data_ = rhs.data_;
+}
+
+RowVector Matrix::Row(int idx) {
+    RowVector IndexedRow(data[idx]);
+    return IndexedRow;
+}
+
+ColumnVector Matrix::Column(int idx) {
+    ColumnVector IndexedColumn(nrows);
+    for (int i=0; i<nrows; i++)
+        IndexedColumn.data[i] = data[i][idx];
+    return IndexedColumn;
 }
 
 
 Matrix Matrix::operator= (Matrix& rhs) {
-    Matrix out(rhs.nrows, rhs.ncols);
-    for (int i=0; i<rhs.nrows; i++)
+    if (this != &rhs) // avoid self-assignment
     {
-        for (int j=0; j<rhs.ncols; j++) 
-        {
-            out.data[i][j] = rhs(i, j);
+        for (int i=0; i<rhs.nrows; i++) {
+            for (int j=0; j<rhs.ncols; j++) {
+                this->data[i][j] = rhs(i, j);
+            }
         }
     }
-    return out;
+    return *this;
 }
 
 double Matrix::operator() (int row, int col) {
@@ -109,6 +126,21 @@ Matrix Matrix::operator* (Matrix& mat) {
     return out;
 }
 
+Matrix Matrix::operator* (MatrixVector& right) {
+    if (ncols != right.size)
+        throw "Incompatible number of dimension!";
+    Matrix out(nrows, 1);
+    for (int i=0; i < nrows; i++) {
+        double tmpSum = 0.0;
+        for (int j=0; j < right.size; j++) {
+            tmpSum += data[i][j] * right(j);
+            }
+        out.data[i][0] = tmpSum;
+    }
+    return out;
+}
+
+
 // Matrix Matrix::operator* (double constant) {
 //     std::vector< std::vector<double> > out_data(data_);
 //     for (int i=0; i < rows_; i++) {
@@ -128,6 +160,16 @@ Matrix Matrix::transpose() {
         }
     }
     return out; 
+}
+
+Matrix Matrix::inverse()
+{   
+    if (!isSquare())
+        throw "Inverse is only defined for a square matrix";
+    int MatrixSize = ncols;
+    // Gauss-Jordan elimination
+    Matrix InvertedMatrix(MatrixSize, MatrixSize);
+    return InvertedMatrix;
 }
 
 void Matrix::print() {
@@ -178,4 +220,75 @@ bool Matrix::isLower()
         }
     }
     return true;
+}
+
+
+MatrixVector::MatrixVector(int n) {
+    size = n;
+    data = new double [size];
+}
+
+MatrixVector::MatrixVector(double arr[]) {
+    size = sizeof(arr)/sizeof(*arr);
+    data = new double [size];
+    for (int i=0; i<size; i++) 
+        data[i] = arr[i];
+}
+
+MatrixVector::~MatrixVector() {
+    delete [] data;
+}
+
+double MatrixVector::operator() (int idx) {
+    return data[idx];
+}
+
+
+RowVector ColumnVector::transpose() {
+    RowVector Transposed(data);
+    return Transposed;
+}
+
+double RowVector::operator* (ColumnVector right) {
+    double ScalarProduct = 0.0;
+    for (int i=0; i<size; i++) 
+        ScalarProduct += this->data[i]*right.data[i];
+    return ScalarProduct;
+}
+
+Matrix RowVector::operator* (Matrix right) {
+    Matrix Multiplied(1, right.ncols);
+    for (int i=0; i<right.ncols; i++) {
+        double tempSum = 0.0;
+        for (int j=0; j<size; j++) 
+            tempSum += data[j]*right.data[j][i];
+        Multiplied.data[0][i] = tempSum;
+    }
+    return Multiplied;
+}
+
+ColumnVector RowVector::transpose() {
+    ColumnVector Transposed(data);
+    return Transposed;
+}
+
+Matrix ColumnVector::operator* (RowVector right) {
+    Matrix Multiplied(size, right.size);
+    for (int i=0; i<size; i++) {
+        for (int j=0; j<right.size; j++)
+            Multiplied.data[i][j] = data[i]*right.data[j];
+    }
+    return Multiplied;
+}
+
+Matrix ColumnVector::operator* (Matrix right) {
+    if (right.nrows != 1) 
+        throw "Incompatible matrix dimensions!";
+    Matrix Multiplied(size, right.ncols);
+    for (int i=0; i<size; i++) {
+        for (int j=0; j<right.ncols; j++)
+            Multiplied.data[i][j] = data[i]*right.data[0][j];
+    }
+    return Multiplied;
+
 }
