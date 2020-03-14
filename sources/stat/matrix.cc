@@ -290,5 +290,4 @@ Matrix ColumnVector::operator* (Matrix right) {
             Multiplied.data[i][j] = data[i]*right.data[0][j];
     }
     return Multiplied;
-
 }

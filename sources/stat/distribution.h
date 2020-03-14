@@ -3,9 +3,9 @@
 
 class Distribution {
     public:
-        double ProbabilityDensityFunction(double x);
-        double CumulativeDensityFunction(double x);
-        double InverseCumulativeDensityFunction(double quantile);
+        double pdf(double x);
+        double cdf(double x);
+        double inv_cdf(double quantile);
         double Moments(unsigned order);
     };
 
@@ -13,9 +13,9 @@ class Distribution {
 class Normal: public Distribution {
     public: 
         Normal(double mean=0, double sigma=1): mean_(mean), sigma_(sigma) {};
-        double ProbabilityDensityFunction(double x);
-        double CumulativeDensityFunction(double x);
-        double InverseCumulativeDensityFunction(double quantile);
+        double pdf(double x);
+        double cdf(double x);
+        double inv_cdf(double quantile);
         double Moments(unsigned order);
     private:
         double mean_, sigma_;
@@ -25,9 +25,9 @@ class Normal: public Distribution {
 class Uniform: public Distribution {
     public:
         Uniform(double a=0, double b=1): a_(a), b_(b) {};
-        double ProbabilityDensityFunction(double x);
-        double CumulativeDensityFunction(double x);
-        double InverseCumulativeDensityFunction(double quantile);
+        double pdf(double x);
+        double cdf(double x);
+        double inv_cdf(double quantile);
         double Moments(unsigned order);
     private:
         double a_, b_;

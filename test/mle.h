@@ -11,4 +11,4 @@ public:
     std::vector<double> residuals();
 private:
     std::vector<std::vector <double>> dataset_;
-}
+};

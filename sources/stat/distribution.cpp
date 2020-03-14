@@ -4,11 +4,11 @@
 
 #define PI 3.14159265358979
 
-double Normal::ProbabilityDensityFunction(double x) {
+double Normal::pdf(double x) {
     return 1/(sqrt(2*PI)*sigma_)*exp(-(x-mean_)*(x-mean_)/(2*sigma_*sigma_));
 }
 
-double Normal::CumulativeDensityFunction(double x) {
+double Normal::cdf(double x) {
     x = (x-mean_)/sigma_;
 
     // Constants
@@ -29,7 +29,7 @@ double Normal::CumulativeDensityFunction(double x) {
 }
 
 
-double Normal::InverseCumulativeDensityFunction(double quantile) {
+double Normal::inv_cdf(double quantile) {
     // if (quantile < 0 || quantile > 1) 
     //     throw std::invalid_argument("Invalid quantile arguement");
     
@@ -59,7 +59,7 @@ double Normal::InverseCumulativeDensityFunction(double quantile) {
         return num;
     }
     else{
-        return -1.0*InverseCumulativeDensityFunction(1-quantile);
+        return -1.0*inv_cdf(1-quantile);
     }
 }
 

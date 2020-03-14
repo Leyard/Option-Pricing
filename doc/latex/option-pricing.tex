@@ -1,0 +1,30 @@
+%! TEX program = pdflatex
+\documentclass{article}
+
+% load packages
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath}
+\usepackage{tikz}
+\usetikzlibrary{shapes.geometric, arrows}
+
+% settings
+\setlength{\parindent}{0pt}
+\linespread{1.5}
+
+
+\begin{document}
+
+%%% title page
+\title{Option Pricing Models}
+\author{}
+\date{}
+\maketitle
+
+\include{flow-chart.tex}
+\include{black-scholes}
+\include{barone-adesi-whaley}
+\include{longstaff-scharwtz}
+%\input{vana-volga.tex}
+\include{vana-volga}
+
+\end{document}

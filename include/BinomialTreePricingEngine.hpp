@@ -3,7 +3,7 @@
 #include <vector>
 #include "OptionPricingEngine.hpp"
 #include "stat/math.h"
-#include "options.h"
+#include "options.hpp"
 
 
 class BinomialTreePricingEngine: public OptionPricingEngine {

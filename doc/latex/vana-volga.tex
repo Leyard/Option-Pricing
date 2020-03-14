@@ -1,0 +1,23 @@
+\section{Vanna-Volga Model}
+Vanna-Volga method is a technique for pricing first-generatation exotic options in foreign exchange (FX) market.
+\begin{itemize}
+    \setlength{\itemsep}{-6pt}
+    \item First-generatation exotics: touch-like options and vanillas with barriers
+    \item Second-generatation exotics: options with a fixing-date structure or options with no available closed form value
+    \item Third-generatation exotics: hybrid products between different assets
+\end{itemize}
+
+The Vanna and Volga are the sensitivity of the Vega with respect to a change in the spot FX rate and the implied volatility, respectively.
+\begin{equation}
+    \mathrm{Vanna} = \frac{\partial \mathcal{V}}{\partial S}, \quad \mathrm{Volga} = \frac{\partial \mathcal{V}}{\partial \sigma}.
+\end{equation}
+
+The Vanna-Volga method uses a small number of market quotes for liquid instruments (typically At-The-Money options, Risk Reversal and Butterfly strategies) and constructs an hedging portfolio which zeros out the Black-Scholes Vega, Vanna and Volga of the option.
+\begin{equation}
+\begin{aligned}
+    \mathrm{ATM}(K_0) &= \frac{1}{2}(\mathrm{Call}(K_0, \sigma_0) + \mathrm{Put}(K_0, \sigma_0)) \\
+    \mathrm{RR}(K_c, K_p) &= \mathrm{Call}(K_c, \sigma(K_c)) - \mathrm{Put}(K_p, \sigma(K_p)) \\
+    \mathrm{BF}(K_c, K_p) &= \frac{1}{2}(\mathrm{Call}(K_c, \sigma(K_c)) + \mathrm{Put}(K_p, \sigma(K_p))) - \mathrm{ATM}(K_0) \\
+\end{aligned}
+\end{equation}
+

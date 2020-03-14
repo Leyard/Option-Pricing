@@ -91,6 +91,3 @@ class ColumnVector: public MatrixVector {
         Matrix operator* (RowVector right);
         Matrix operator* (Matrix right);
 };
-
-
-

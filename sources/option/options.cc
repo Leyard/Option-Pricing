@@ -81,5 +81,9 @@ double Option::ExerciseValue(double CurrentPrice) {
 }
 
 
+void GenericOptions::set_engine(const OptionPricingEngine* pricing_eng)
+{
+    _pricing_eng = const_cast<OptionPricingEngine *>(pricing_eng);
+}
 
 
