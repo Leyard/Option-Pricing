@@ -1,6 +1,0 @@
-./.gitignore
-./CppProperties.json
-./doc/latex/*.aux
-./doc/latex/*.log
-./doc/latex/*.synctex.gz
-./build
